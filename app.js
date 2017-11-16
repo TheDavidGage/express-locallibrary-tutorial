@@ -8,16 +8,21 @@ var expressValidator = require('express-validator');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var catalog = require('./routes/catalog'); // Import routes for "catalog" area of site
+var catalog = require('./routes/catalog'); //Import routes for "catalog" area of site
+var compression = require('compression');
+var helmet = require('helmet');
 
+// Create the Express application object
 var app = express();
+
+app.use(helmet());
+
 
 // Set up mongoose connection
 var mongoose = require('mongoose');
 var mongoDB = 'mongodb://thedavidgage:godisking1@ds163745.mlab.com:63745/local_library';
-mongoose.connect(mongoDB, {
-    useMongoClient: true
-});
+var mongoDB = process.env.MONGODB_URI || 'mongodb://thedavidgage:godisking1@ds163745.mlab.com:63745/local_library';
+mongoose.connect(mongoDB);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
@@ -32,6 +37,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressValidator());
 app.use(cookieParser());
+
+app.use(compression()); //Compress all routes
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
