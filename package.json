@@ -13,7 +13,6 @@
     "debug": "~2.6.9",
     "express": "~4.15.5",
     "express-validator": "^4.3.0",
-    "jade": "~1.11.0",
     "moment": "^2.19.2",
     "mongodb": "^2.2.33",
     "mongoose": "^4.13.2",
